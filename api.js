@@ -86,3 +86,12 @@ app.get('/categories', (req, res)=>{
 })
 
 ////////
+
+app.get('/products', (req, res)=>{
+    client.query(`Select * from "Product"`, (err, result)=>{
+        if(!err){
+            res.send(result.rows);
+        }
+    });
+    client.end;
+})
