@@ -76,6 +76,8 @@ app.delete('/users/:id', (req, res)=> {
     client.end;
 })
 
+///
+
 app.get('/categories', (req, res)=>{
     client.query(`Select * from "Category"`, (err, result)=>{
         if(!err){
@@ -85,13 +87,195 @@ app.get('/categories', (req, res)=>{
     client.end;
 })
 
-////////
+app.get('/categories/:id', (req, res)=>{
+    client.query(`Select * from "Category" where id=${req.params.id}`, (err, result)=>{
+        if(!err){
+            res.send(result.rows);
+        }
+    });
+    client.end;
+})
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+
+app.post('/categories', (req, res)=> {
+    const categories = req.body;
+    console.log(categories)
+    let insertQuery = `insert into "Category"(id, name, "desc") 
+                       values(${categories.id}, '${categories.name}', '${categories.desc}')`
+
+    client.query(insertQuery, (err, result)=>{
+        if(!err){
+            res.send('Insertion was successful')
+        }
+        else{ console.log(err.message) }
+    })
+    client.end;
+})
+
+app.put('/categories/:id', (req, res)=> {
+    let categories = req.body;
+    let updateQuery = `update "Category"
+                       set name = '${categories.name}',
+                       "desc" = '${categories.desc}'
+                       where id = ${categories.id}`
+
+    client.query(updateQuery, (err, result)=>{
+        if(!err){
+            res.send('Update was successful')
+        }
+        else{ console.log(err.message) }
+    })
+    client.end;
+})
+
+app.delete('/categories/:id', (req, res)=> {
+    let insertQuery = `delete from "Category" where id=${req.params.id}`
+
+    client.query(insertQuery, (err, result)=>{
+        if(!err){
+            res.send('Deletion was successful')
+        }
+        else{ console.log(err.message) }
+    })
+    client.end;
+})
+
+
+///
 app.get('/products', (req, res)=>{
     client.query(`Select * from "Product"`, (err, result)=>{
         if(!err){
             res.send(result.rows);
         }
     });
+    client.end;
+})
+
+app.get('/products/:id', (req, res)=>{
+    client.query(`Select * from "Product" where id=${req.params.id}`, (err, result)=>{
+        if(!err){
+            res.send(result.rows);
+        }
+    });
+    client.end;
+})
+
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+
+app.post('/products', (req, res)=> {
+    const products = req.body;
+    console.log(products)
+    let insertQuery = `insert into "Product"(id, name, "desc", "categoryId") 
+                       values(${products.id}, '${products.name}', '${products.desc}', '${products.categoryId}')`
+
+    client.query(insertQuery, (err, result)=>{
+        if(!err){
+            res.send('Insertion was successful')
+        }
+        else{ console.log(err.message) }
+    })
+    client.end;
+})
+
+app.put('/products/:id', (req, res)=> {
+    let products = req.body;
+    let updateQuery = `update "Product"
+                       set name = '${Product.name}',
+                       "desc" = '${Product.desc}',
+                       "categoryId" = '${Product.categoryId}'
+                       where id = ${Product.id}`
+
+    client.query(updateQuery, (err, result)=>{
+        if(!err){
+            res.send('Update was successful')
+        }
+        else{ console.log(err.message) }
+    })
+    client.end;
+})
+
+app.delete('/products/:id', (req, res)=> {
+    let insertQuery = `delete from "Product" where id=${req.params.id}`
+
+    client.query(insertQuery, (err, result)=>{
+        if(!err){
+            res.send('Deletion was successful')
+        }
+        else{ console.log(err.message) }
+    })
+    client.end;
+})
+
+
+///
+app.get('/orders', (req, res)=>{
+    client.query(`Select * from "Order"`, (err, result)=>{
+        if(!err){
+            res.send(result.rows);
+        }
+    });
+    client.end;
+})
+
+app.get('/orders/:id', (req, res)=>{
+    client.query(`Select * from "Order" where id=${req.params.id}`, (err, result)=>{
+        if(!err){
+            res.send(result.rows);
+        }
+    });
+    client.end;
+})
+
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+
+app.post('/orders', (req, res)=> {
+    const orders = req.body;
+    console.log(orders)
+    let insertQuery = `insert into "Order"("id", "desc", "user-Id", "product-Id", "Qty", "Price", "Status", "deliverydate")
+                       values(${Order.id}, '${Order.desc}', '${Order.user-Id}', '${Order.product-Id}', '${Order.Qty}', '${Order.Price}', '${Order.Status}', '${Order.deliverydate}')`
+
+    client.query(insertQuery, (err, result)=>{
+        if(!err){
+            res.send('Insertion was successful')
+        }
+        else{ console.log(err.message) }
+    })
+    client.end;
+})
+
+app.put('/orders/:id', (req, res)=> {
+    let orders = req.body;
+    let updateQuery = `update "Order"
+                       set "desc" = '${Order.desc}',
+                       "user-Id" = '${Order.user-Id}',
+                       "product-Id" = '${Order.roduct-Id}',
+                       "Qty" = '${Order.Qty}',
+                       "Price" = '${Order.Price}',
+                       "Status" = '${Order.Status}',
+                       "deliverydate" = '${Order.deliverydate}'
+                       where id = ${Order.id}`
+
+    client.query(updateQuery, (err, result)=>{
+        if(!err){
+            res.send('Update was successful')
+        }
+        else{ console.log(err.message) }
+    })
+    client.end;
+})
+
+app.delete('/orders/:id', (req, res)=> {
+    let insertQuery = `delete from "Order" where id=${req.params.id}`
+
+    client.query(insertQuery, (err, result)=>{
+        if(!err){
+            res.send('Deletion was successful')
+        }
+        else{ console.log(err.message) }
+    })
     client.end;
 })
